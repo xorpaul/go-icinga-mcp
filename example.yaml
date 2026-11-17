@@ -1,0 +1,50 @@
+# go-icinga-mcp config. Copy to config.yaml next to the binary, or pass an
+# explicit path with `-config /path/to/file.yaml`.
+#
+# v0.2 targets Icinga 2's REST API (port 5665). The Icinga 2 master must have
+# the `api` feature enabled and an API user defined in /etc/icinga2/conf.d/
+# api-users.conf with at least objects/query/{Host,Service,Hostgroup,
+# Servicegroup,Comment,Downtime} permissions.
+
+icinga2:
+  base_url: https://monitoring.example.com:5665
+  username: api-user
+  password: change-me
+
+  # TLS verification (default: true). Icinga 2 ships with a self-signed cert
+  # from its own internal CA; either point ca_bundle at that CA or set
+  # verify_tls: false for a quick test.
+  verify_tls: true
+
+  # Path to Icinga 2's internal CA, typically /var/lib/icinga2/certs/ca.crt
+  # on the master. Leave empty to use the system CA store.
+  ca_bundle: ""
+
+  # Optional client cert for cert-auth against Icinga 2 (must be signed by
+  # Icinga 2's internal CA). Most setups use Basic auth instead.
+  client_cert: ""
+  client_key: ""
+
+http:
+  request_timeout_sec: 15
+  max_retries: 3
+  retry_backoff_sec: 0.5
+
+# Optional: override the default field projections used when a tool is called
+# with summary=true. Omit a section to keep its built-in default. Field paths
+# are dotted lookups against each result's `attrs` object.
+#
+# summary_fields:
+#   host:
+#     - name
+#     - state
+#     - state_type
+#     - problem
+#     - last_check
+#     - last_state_change
+#     - acknowledgement
+#     - downtime_depth
+#     - last_check_result.output
+#   service: []
+#   comment: []
+#   downtime: []

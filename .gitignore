@@ -1,0 +1,12 @@
+# Compiled binary (built locally with `go build`)
+/go-icinga-mcp
+
+# Cross-compiled release artifacts produced by ./go-build-release/build_release.sh
+/build/
+
+# Local config file (may contain secrets)
+config.yaml
+
+# Editor / OS noise
+*.swp
+.DS_Store
